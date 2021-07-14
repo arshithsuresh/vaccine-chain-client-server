@@ -3,6 +3,7 @@ const createVaccine = require('./createVaccine');
 
 routes.post('/create', async(req,res,next)=>{
     console.log("create vaccine")
+    
 })
 
 module.exports = routes

@@ -7,7 +7,7 @@ const verifyAuthenticity= async (req,res,next)=>{
     const payload = req.body.data
     const signature = req.body.signature
 
-    //console.log(req.body)
+    console.log(req.body)
     const query = "SELECT * FROM manufacturer WHERE username =$1";
 
     try{
@@ -15,11 +15,12 @@ const verifyAuthenticity= async (req,res,next)=>{
         if(userdetails.rowCount > 0)
         {
             const publickey = userdetails.rows[0].publickey
-            console.log(publickey)
+            console.log(userdetails.rows[0])
             const authResult = verifyPayload(payload,signature,publickey)
 
             if(authResult)
             {
+                res.userDetails = userdetails.rows[0]
                 return next();
             }
         }             
@@ -29,7 +30,7 @@ const verifyAuthenticity= async (req,res,next)=>{
         return next(err)
     }
 
-    next(new Error("Error : Failed to confirm authenticity"))
+    return next(new Error("Error : Failed to confirm authenticity"))
 }
 
 module.exports = verifyAuthenticity
