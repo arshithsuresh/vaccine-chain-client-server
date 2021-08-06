@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan("dev"))
 
-app.use("/api/",routes)
+app.use("/api",routes)
 
 app.use(function(err,req,res,next){
     console.error(err)
@@ -21,4 +21,7 @@ app.use(function(err,req,res,next){
     });
 })
 
-app.listen(constants.PORT, ()=> console.log(`Started Listening on PORT ${constants.PORT}`))
+app.listen(constants.PORT, ()=> {
+    
+    console.log(`Started Listening on PORT ${constants.PORT}`)
+})

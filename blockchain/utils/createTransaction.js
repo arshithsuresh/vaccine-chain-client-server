@@ -14,7 +14,9 @@ const CreateTransaction= (inputs,outputs,payload,FAMILY,VERSION)=>{
     const privateKey = Secp256k1PrivateKey.fromHex(PRIVATE_KEY)
     const signer = new CryptoFactory(context).newSigner(privateKey)
 
-    const payloadBytes = Buffer.from(JSON.stringify(payload))    
+    console.log("Public Key => "+  signer.getPublicKey().asHex())
+
+    const payloadBytes = Buffer.from(JSON.stringify(payload))  
      
     const transcationHeaderBytes = protobuf.TransactionHeader.encode(
         {

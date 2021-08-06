@@ -43,3 +43,4 @@ CREATE TABLE vaccinator(
 
 
 INSERT INTO manufacturer (username,publickey,manufactureaddress,userrole,validated,publicname,address) values ('8137856339','029ca1998e5474ae861ecc24fddc379c64b273e76b469b16e39b7b5e35f8058f78','0x123',0,1,'ABC Vaccine Industries','0x1ae3f2cb4fe'); 
+INSERT INTO VACCINE (address,batchid,vaccinecount,manufacturedate,expirydate,currentOwner,currentLocation,currentStatus) VALUES();

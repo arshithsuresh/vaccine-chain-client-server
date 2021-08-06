@@ -13,7 +13,27 @@ const CreateUser = require('./user/createUser')
 const GetUserDetails = require('./user/getuser')
 const {GenerateUserAddress} = require('../../blockchain/UserProcessor/userClient')
 const { route } = require('./user');
+const { GenerateVaccineAddress, GetVaccineDetails } = require('../../blockchain/VaccineProcessor/vaccineClient');
 
+routes.get('/getbatch/:id', async(req,res,next)=>{
+
+    const {id} = req.params
+
+    const vaccineAddres = GenerateVaccineAddress(id)
+
+    const vaccineDetails = await GetVaccineDetails(vaccineAddres)
+    
+    console.log(vaccineDetails)
+    if(vaccineDetails.data)
+    {
+        res.status(200).json(vaccineDetails)
+        return
+    }
+
+    res.status(404).json({message:"no vaccine found on blockchain"})
+    return
+
+})
 
 routes.get('/address/:address', async(req,res,next)=>{
     
@@ -28,6 +48,7 @@ routes.get('/address/:address', async(req,res,next)=>{
         return
     }
     res.status(404).json({message:"no user found on blockchain"})
+    return
     //next(new Error("No User Found on blockchain"))
 
 })
@@ -61,9 +82,9 @@ routes.post('/createuser', async(req,res,next)=>{
 
     try{
         
-        const userCreated = await CreateUser(username,data,signature)
+        const userCreated = await CreateUser(username,data)
         
-        if(userCreated)
+        if(userCreated != false)
         {
             const response = {
                 message:"User created!",
