@@ -72,8 +72,41 @@ const GetVaccineDetails = async(address)=>{
     }
 }
 
-const VaccinateUser = async( username, vaccinedata)=>{
-    
+const TranferVaccine = async(vaccineAddress,ownerAddress, transferAddress)=>{
+    try {
+        
+        const payload = {
+            action:"transfer",
+            data: {
+                vaccineAddress: vaccineAddress,
+                ownerAddress: ownerAddress,
+                transferAddress:transferAddress
+            }
+        }
+
+        const transaction = CreateTransaction([vaccineAddress],[vaccineAddress],payload,VACCINE_FAMILY,VACCINE_VERSION)
+        const transactions = [transaction]
+
+        const batches = CreateBatch(transactions)
+
+        const response = await api.post('/batches', batches, {
+            headers: { 'Content-Type' : 'application/octet-stream'}
+        })
+
+        if(response.status == 200)
+        {
+            return true
+        }
+        
+    } catch (error) {
+
+        console.error(error)        
+    }
+
+    return false;
+}
+
+const VaccinateUser = async( username, vaccinedata)=>{    
 
     try {
         
@@ -87,7 +120,7 @@ const VaccinateUser = async( username, vaccinedata)=>{
 
         const userAddress = GenerateUserAddress(username)
 
-        const transaction = CreateTransaction([userAddress],[userAddress],payload,USER_FAMILY,USER_VERSION)
+        const transaction = CreateTransaction([userAddress],[userAddress],payload,VACCINE_FAMILY,VACCINE_VERSION)
         const transactions = [transaction]
 
         const batches = CreateBatch(transactions)
@@ -109,5 +142,5 @@ const VaccinateUser = async( username, vaccinedata)=>{
 }
 
 module.exports={
-    CreateVaccine, GetVaccineDetails, GenerateVaccineAddress, VaccinateUser
+    CreateVaccine, GetVaccineDetails, GenerateVaccineAddress, VaccinateUser, TranferVaccine
 }

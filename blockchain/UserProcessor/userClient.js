@@ -21,11 +21,11 @@ const CreatePublicUser = async (payload,signature)=>{
 
     try {
 
-        // await api.post('/batches', batches, {
-        //     headers: { 'Content-Type' : 'application/octet-stream'}
-        // })
+        await api.post('/batches', batches, {
+             headers: { 'Content-Type' : 'application/octet-stream'}
+         })
     
-        // if(result.status == 200)
+         if(result.status == 200)
         {
             return address;
         }

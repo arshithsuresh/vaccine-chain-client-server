@@ -23,6 +23,7 @@ routes.get('/getbatch/:id', async(req,res,next)=>{
 
     const vaccineDetails = await GetVaccineDetails(vaccineAddres)
     
+    console.log("Vaccine Details => ")
     console.log(vaccineDetails)
     if(vaccineDetails.data)
     {
